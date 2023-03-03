@@ -1,0 +1,67 @@
+<div class="mt-3">
+    <div class="text-primary">Danh sách sản phẩm</div>
+    <a href="/add" class="btn btn-success btn-sm my-2">Thêm sản phẩm</a>
+    <p>Muốn xem chi tiết sản phẩm nào thì chọn sản phẩm đó</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>{{id}}</td>
+                <td><a href="/chitiet/{{id}}">{{name}}</a></td>
+                <td>{{price}}</td>
+                <td>{{description}}</td>
+                <td>
+                    <a href="/edit/{{id}}">Chỉnh sửa</a> |
+                    <a href="#" data-id="{{this.id}}" data-bs-toggle="modal" data-bs-target="#exampleModal">Xoá</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<form name="delete-product-form" method="POST"></form>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">Xoá sản phẩm</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc muốn xoá sản phẩm này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger deleteProduct" data-bs-dismiss="modal">Xoá</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var exampleModal = document.getElementById('exampleModal')
+    var productID
+    var deleteForm = document.forms['delete-product-form'];
+
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        productID = button.getAttribute('data-id')
+    })
+
+    var btnDelete = document.querySelector('.deleteProduct');
+
+    btnDelete.onclick = function () {
+        deleteForm.action = 'delete/' + productID
+        deleteForm.submit()
+    }
+</script>
